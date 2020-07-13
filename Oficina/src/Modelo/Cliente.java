@@ -9,14 +9,14 @@ package Modelo;
  *
  * @author luis_
  */
-public class Servicios {
+public class Cliente {
     private int Id;
     private String Nombre;
     private String Direccion;
     private String Telefono;
     private String Celular;
 
-    public Servicios(int Id, String Nombre) {
+    public Cliente(int Id, String Nombre) {
         this.Id = Id;
         this.Nombre = Nombre;
     }

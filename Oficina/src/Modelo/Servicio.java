@@ -9,6 +9,6 @@ package Modelo;
  *
  * @author luis_
  */
-public class Clientes {
+public class Servicio {
     
 }
