@@ -4,10 +4,16 @@ import Modelo.Cliente;
 
 public class daoClientes {
     
-    public void Agregar(Cliente nuevo){
+    public void Agregar(Cliente nuevoCliente){
         
     }
     
-    public void 
+    public void Modificar(Cliente cliente){
+    
+    }
+    
+    public Cliente Buscar(int id){
+        return null;
+    }
     
 }
