@@ -25,7 +25,7 @@ public class Conexion {
         return conexion;
     }
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Conexion db = new Conexion();
         try {
             Connection con = db.obtenerConexion();
@@ -34,5 +34,5 @@ public class Conexion {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
