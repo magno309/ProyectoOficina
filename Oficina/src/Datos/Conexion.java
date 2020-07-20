@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 
 public class Conexion {
 
-    String driver;
-    String dbName;
-    String connectionURL;
-    String username;
-    String password;
+    private String driver;
+    private String dbName;
+    private String connectionURL;
+    private String username;
+    private String password;
 
     public Conexion() {
         driver = "com.mysql.jdbc.Driver";

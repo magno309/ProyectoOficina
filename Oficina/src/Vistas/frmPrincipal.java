@@ -5,6 +5,11 @@
  */
 package Vistas;
 
+import Datos.daoClientes;
+import Modelo.Cliente;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luis_
@@ -43,10 +48,20 @@ public class frmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(724, 419));
         setMinimumSize(new java.awt.Dimension(600, 310));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jLabel1.setText("Buscar cliente:");
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,6 +139,50 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        DefaultTableModel modelo = new DefaultTableModel();
+        jTable1.setModel(modelo);
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Direccion");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Celular");
+        try {
+            ResultSet rs = new daoClientes().ObtenerTodos();
+            while (rs.next()) {
+                Object fila[] = new Object[5];
+                for(int i=0;i<5;i++){
+                    fila[i] = rs.getObject(i+1);
+                }
+                modelo.addRow(fila);
+            }
+        } catch (Exception e) {
+        }
+
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        DefaultTableModel modelo = new DefaultTableModel();
+        jTable1.setModel(modelo);
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Direccion");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Celular");
+        try {
+            ResultSet rs = new daoClientes().BuscarPorNombre(txtCliente.getText());
+            while (rs.next()) {
+                Object fila[] = new Object[5];
+                for(int i=0;i<5;i++){
+                    fila[i] = rs.getObject(i+1);
+                }
+                modelo.addRow(fila);
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments

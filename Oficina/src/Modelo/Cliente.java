@@ -16,9 +16,12 @@ public class Cliente {
     private String Telefono;
     private String Celular;
 
-    public Cliente(int Id, String Nombre) {
+    public Cliente(int Id, String Nombre, String Direccion, String Telefono, String Celular) {
         this.Id = Id;
         this.Nombre = Nombre;
+        this.Direccion = Direccion;
+        this.Telefono = Telefono;
+        this.Celular = Celular;
     }
 
     public int getId() {
