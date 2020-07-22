@@ -8,6 +8,7 @@ package Vistas;
 import Datos.daoClientes;
 import Modelo.Cliente;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -63,25 +64,6 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Nombre", "Direccion", "Teléfono"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
         jTable1.setMinimumSize(new java.awt.Dimension(225, 64));
         jScrollPane1.setViewportView(jTable1);
 
@@ -93,6 +75,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu3.add(btnAgregarCliente);
 
         btnEditarCliente.setText("Editar...");
+        btnEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarClienteActionPerformed(evt);
+            }
+        });
         jMenu3.add(btnEditarCliente);
 
         jMenu1.add(jMenu3);
@@ -115,13 +102,13 @@ public class frmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -133,7 +120,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -144,7 +131,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
-        modelo.addColumn("ID");
+        //modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
         modelo.addColumn("Telefono");
@@ -152,9 +139,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         try {
             ResultSet rs = new daoClientes().ObtenerTodos();
             while (rs.next()) {
-                Object fila[] = new Object[5];
-                for(int i=0;i<5;i++){
-                    fila[i] = rs.getObject(i+1);
+                Object fila[] = new Object[4];
+                for (int i = 0; i < 4; i++) {
+                    if(rs.getObject(i + 2) != null) fila[i] = rs.getObject(i + 2);
+                    else fila[i] = "";
                 }
                 modelo.addRow(fila);
             }
@@ -166,7 +154,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
-        modelo.addColumn("ID");
+        //modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
         modelo.addColumn("Telefono");
@@ -174,15 +162,34 @@ public class frmPrincipal extends javax.swing.JFrame {
         try {
             ResultSet rs = new daoClientes().BuscarPorNombre(txtCliente.getText());
             while (rs.next()) {
-                Object fila[] = new Object[5];
-                for(int i=0;i<5;i++){
-                    fila[i] = rs.getObject(i+1);
+                Object fila[] = new Object[4];
+                for (int i = 0; i < 4; i++) {
+                    if(rs.getObject(i + 2) != null) fila[i] = rs.getObject(i + 2);
+                    else fila[i] = "";
                 }
                 modelo.addRow(fila);
             }
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
+        // TODO add your handling code here:
+        try {
+            int index = jTable1.getSelectedRow();
+            int clave = (int) jTable1.getModel().getValueAt(index, 0);
+            String nombre = jTable1.getModel().getValueAt(index, 1).toString();
+            String direccion = jTable1.getModel().getValueAt(index, 2).toString();
+            String telefono = jTable1.getModel().getValueAt(index, 3).toString();
+            String celular = jTable1.getModel().getValueAt(index, 4).toString();
+            Cliente seleccionado = new Cliente(clave, nombre, direccion, telefono, celular);
+            frmInfoCliente frm = new frmInfoCliente(seleccionado);
+            frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frm.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     /**
      * @param args the command line arguments

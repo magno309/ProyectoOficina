@@ -29,7 +29,7 @@ BEGIN
 END$$
 delimiter ;
 
-call agregarCliente('Amparo García', 'Bravo #57, Huandacareo, Mich', null, null);
+call agregarCliente('Amparo García', 'Bravo #57, Huandacareo, Mich', null, '551-349-0185');
 
 select * from Clientes;
 
@@ -45,4 +45,4 @@ delimiter ;
 
 call agregarServicio(1, 'Reparación de puerta automatica', curdate());
 
-select * from Clientes;
+select * from Clientes where nombre like 'Amp%';

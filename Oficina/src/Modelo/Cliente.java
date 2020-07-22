@@ -28,10 +28,6 @@ public class Cliente {
         return Id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-    
     public String getNombre() {
         return Nombre;
     }
