@@ -8,11 +8,13 @@ package Vistas;
 import Datos.daoServicios;
 import Datos.daoClientes;
 import Modelo.Cliente;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Component;
 import java.sql.ResultSet;
-import javax.swing.AbstractAction;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -22,9 +24,12 @@ public class frmInfoCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form frmInfoCliente
+     * @throws java.text.ParseException
      */
-    public frmInfoCliente() {
+    public frmInfoCliente(){
         initComponents();
+        btnAccion.setText("Agregar");
+        Actual = new Cliente();
     }
 
     private ResultSet rs;
@@ -57,9 +62,9 @@ public class frmInfoCliente extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        txtTelefono = new javax.swing.JTextField();
-        txtCelular = new javax.swing.JTextField();
         btnAccion = new javax.swing.JButton();
+        txtCelular = new javax.swing.JFormattedTextField();
+        txtTelefono = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -83,6 +88,18 @@ public class frmInfoCliente extends javax.swing.JFrame {
                 btnAccionActionPerformed(evt);
             }
         });
+
+        try {
+            txtCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-###-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            txtTelefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-###-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -186,17 +203,38 @@ public class frmInfoCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccionActionPerformed
-        Actual.setNombre(txtNombre.getText());
-        Actual.setDireccion(txtDireccion.getText());
-        Actual.setTelefono(txtTelefono.getText());
-        Actual.setCelular(txtCelular.getText());
-        try{
-            new daoClientes().Modificar(Actual);
-            JOptionPane.showMessageDialog(null, "Cliente modificado correctamente", "Modificar", JOptionPane.INFORMATION_MESSAGE);
-        }catch(Exception e){
-            
+        switch (btnAccion.getText()) {
+            case "Editar":
+                Actual.setNombre(txtNombre.getText());
+                Actual.setDireccion(txtDireccion.getText());
+                Actual.setTelefono(txtTelefono.getText());
+                Actual.setCelular(txtCelular.getText());
+                try {
+                    new daoClientes().Modificar(Actual);
+                    JOptionPane.showMessageDialog(null, "Cliente modificado correctamente", "Modificar", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+
+                }
+                break;
+            case "Agregar":
+                Actual.setNombre(txtNombre.getText());
+                Actual.setDireccion(txtDireccion.getText());
+                Actual.setTelefono(txtTelefono.getText());
+                Actual.setCelular(txtCelular.getText());
+                try {
+                    new daoClientes().Agregar(Actual);
+                    for(Component cmp : jPanel1.getComponents()){
+                        if(cmp instanceof JTextField){
+                            JTextField j = (JTextField)cmp;
+                            j.setText("");
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, "Cliente agregado correctamente", "Agregar", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+
+                }
         }
-        
+
     }//GEN-LAST:event_btnAccionActionPerformed
 
     /**
@@ -244,9 +282,9 @@ public class frmInfoCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtCelular;
+    private javax.swing.JFormattedTextField txtCelular;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtTelefono;
+    private javax.swing.JFormattedTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

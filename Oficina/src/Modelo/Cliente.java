@@ -16,6 +16,9 @@ public class Cliente {
     private String Telefono;
     private String Celular;
 
+    
+    public Cliente(){}
+    
     public Cliente(int Id, String Nombre, String Direccion, String Telefono, String Celular) {
         this.Id = Id;
         this.Nombre = Nombre;

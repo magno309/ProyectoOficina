@@ -4,22 +4,23 @@ use Oficina;
 create table Clientes(
 	Id_Cliente int primary key auto_increment,
     Nombre varchar(45) not null,
-    Direccion  varchar(100),
-    Telefono char(12),
-    Celular char(12)
+    Direccion  varchar(100) not null default '',
+    Telefono char(12) not null default '',
+    Celular char(12) not null default ''
 );
 
 CREATE TABLE Servicios (
     Id_Servicio INT PRIMARY KEY AUTO_INCREMENT,
     Id_Cliente INT NOT NULL,
-    Descripcion TEXT NOT NULL,
+    Descripcion varchar(150) NOT NULL default '',
     Fecha DATE,
     FOREIGN KEY (Id_Cliente)
         REFERENCES Clientes (Id_Cliente)
 );
 
 delimiter $$
-create procedure agregarCliente(Nombre varchar(45),
+create procedure agregarCliente(
+	Nombre varchar(45),
     Direccion  varchar(100),
     Telefono char(12),
     Celular char(12) )
@@ -28,10 +29,6 @@ BEGIN
     values (Nombre, Direccion, Telefono, Celular);
 END$$
 delimiter ;
-
-call agregarCliente('Amparo García', 'Bravo #57, Huandacareo, Mich', null, '551-349-0185');
-
-select * from Clientes;
 
 delimiter $$
 create procedure agregarServicio(Id_Cliente INT,
@@ -43,6 +40,7 @@ BEGIN
 END$$
 delimiter ;
 
-call agregarServicio(1, 'Reparación de puerta automatica', curdate());
+select * from Clientes;
+alter table clientes auto_increment = 1;
 
-select * from Clientes where nombre like 'Amp%';
+call agregarCliente('Juanito Alcachofa', 'Granja Feliz', '', '');

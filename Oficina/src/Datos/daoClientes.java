@@ -51,7 +51,7 @@ public class daoClientes implements EntidadesDB<Cliente> {
         try {
             Connection conn = db.obtenerConexion();
             Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery("select * from Clientes;");
+            ResultSet rs = s.executeQuery("select * from Clientes order by nombre asc;");
             return rs;
         } catch (Exception e) {
             return null;

@@ -18,6 +18,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Agregar..."/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarClienteActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="btnEditarCliente">
                   <Properties>
@@ -37,6 +40,11 @@
                 <MenuItem class="javax.swing.JMenuItem" name="btnRegistrarServicio">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Registrar servicio..."/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ver servicios..."/>
                   </Properties>
                 </MenuItem>
               </SubComponents>
