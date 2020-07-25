@@ -24,6 +24,10 @@ public class Servicio {
     public int getId_Cliente() {
         return Id_Cliente;
     }
+    
+    public void setId_Cliente(int Id_Cliente){
+        this.Id_Cliente = Id_Cliente;
+    }
 
     public String getDescripcion() {
         return Descripcion;

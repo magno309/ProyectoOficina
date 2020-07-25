@@ -8,13 +8,19 @@ package Vistas;
 import Datos.daoServicios;
 import Datos.daoClientes;
 import Modelo.Cliente;
+import Modelo.Servicio;
 import java.awt.Component;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,26 +30,58 @@ public class frmInfoCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form frmInfoCliente
+     *
      * @throws java.text.ParseException
      */
-    public frmInfoCliente(){
+    public frmInfoCliente() {
         initComponents();
         btnAccion.setText("Agregar");
         Actual = new Cliente();
     }
 
-    private ResultSet rs;
     private Cliente Actual;
+    private ArrayList<Servicio> listaServicios = new ArrayList();
 
-    public frmInfoCliente(Cliente Existente) {
+    public frmInfoCliente(Cliente Existente, int funcion) {
         initComponents();
         Actual = Existente;
         txtNombre.setText(Existente.getNombre());
         txtDireccion.setText(Existente.getDireccion());
         txtTelefono.setText(Existente.getTelefono());
         txtCelular.setText(Existente.getCelular());
-        //rs = new daoServicios().ObtenerTodosPorCliente(Existente.getId());
-        btnAccion.setText("Editar");
+        switch (funcion) {
+            case 1:
+                btnAccion.setText("Editar");
+                break;
+            case 2:
+                txtNombre.setEditable(false);
+                txtDireccion.setEditable(false);
+                txtTelefono.setEditable(false);
+                txtCelular.setEditable(false);
+                btnAccion.setVisible(false);
+                DefaultTableModel modelo = new DefaultTableModel();
+                jTable1.setModel(modelo);
+                modelo.addColumn("Fecha");
+                modelo.addColumn("Descripcion");
+                try {
+                    ResultSet rs = new daoServicios().ObtenerTodosPorCliente(Existente.getId());
+                    while (rs.next()) {
+                        int idServicio = (int) rs.getObject(1);
+                        int idCliente = (int) rs.getObject(2);
+                        String descripcion = rs.getObject(3).toString();
+                        LocalDate fecha = rs.getDate(4).toLocalDate();
+                        listaServicios.add(new Servicio(idServicio, idCliente, descripcion, fecha));
+                    }
+                    for (Servicio s : listaServicios) {
+                        Object fila[] = {s.getFecha(), s.getDescripcion()};
+                        modelo.addRow(fila);
+                    }
+                } catch (SQLException e) {
+
+                }
+                break;
+        }
+
     }
 
     /**
@@ -223,9 +261,9 @@ public class frmInfoCliente extends javax.swing.JFrame {
                 Actual.setCelular(txtCelular.getText());
                 try {
                     new daoClientes().Agregar(Actual);
-                    for(Component cmp : jPanel1.getComponents()){
-                        if(cmp instanceof JTextField){
-                            JTextField j = (JTextField)cmp;
+                    for (Component cmp : jPanel1.getComponents()) {
+                        if (cmp instanceof JTextField) {
+                            JTextField j = (JTextField) cmp;
                             j.setText("");
                         }
                     }

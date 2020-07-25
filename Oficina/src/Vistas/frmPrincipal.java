@@ -25,7 +25,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         initComponents();
     }
 
-    ArrayList<Cliente> listaClientes = new ArrayList();
+    private ArrayList<Cliente> listaClientes = new ArrayList();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -43,7 +43,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnEditarCliente = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         btnRegistrarServicio = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        btnVerServicio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(724, 419));
@@ -91,10 +91,20 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu4.setText("Servicios");
 
         btnRegistrarServicio.setText("Registrar servicio...");
+        btnRegistrarServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarServicioActionPerformed(evt);
+            }
+        });
         jMenu4.add(btnRegistrarServicio);
 
-        jMenuItem1.setText("Ver servicios...");
-        jMenu4.add(jMenuItem1);
+        btnVerServicio.setText("Ver servicios...");
+        btnVerServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerServicioActionPerformed(evt);
+            }
+        });
+        jMenu4.add(btnVerServicio);
 
         jMenu1.add(jMenu4);
 
@@ -205,10 +215,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             int index = jTable1.getSelectedRow();
-            frmInfoCliente frm = new frmInfoCliente(listaClientes.get(index));
+            frmInfoCliente frm = new frmInfoCliente(listaClientes.get(index), 1);
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
             frm.setVisible(true);
+            frm.setTitle("Cliente no.: " + listaClientes.get(index).getId());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -220,6 +231,33 @@ public class frmPrincipal extends javax.swing.JFrame {
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
+
+    private void btnRegistrarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarServicioActionPerformed
+        // TODO add your handling code here:
+        try {
+            int index = jTable1.getSelectedRow();
+            frmInfoServicios frm = new frmInfoServicios(listaClientes.get(index).getId());
+            frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frm.setLocationRelativeTo(null);
+            frm.setTitle("Registrar servicio - Cliente: " + listaClientes.get(index).getNombre());
+            frm.setVisible(true);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnRegistrarServicioActionPerformed
+
+    private void btnVerServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerServicioActionPerformed
+        // TODO add your handling code here:
+        try {
+            int index = jTable1.getSelectedRow();
+            frmInfoCliente frm = new frmInfoCliente(listaClientes.get(index), 2);
+            frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frm.setLocationRelativeTo(null);
+            frm.setVisible(true);
+            frm.setTitle("Cliente no.: " + listaClientes.get(index).getId());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnVerServicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,12 +299,12 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JMenuItem btnEditarCliente;
     private javax.swing.JMenuItem btnRegistrarServicio;
+    private javax.swing.JMenuItem btnVerServicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtCliente;

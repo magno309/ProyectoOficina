@@ -5,16 +5,46 @@
  */
 package Vistas;
 
+import Modelo.Servicio;
+import java.time.ZoneId;
+import Datos.daoServicios;
+import java.time.LocalDate;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author luis_
  */
 public class frmInfoServicios extends javax.swing.JFrame {
 
+    private Servicio servicioActual;
+    private int idCliente;
+
     /**
      * Creates new form frmInfoServicios
+     *
+     * @param servicio
+     * @param idCliente
      */
-    public frmInfoServicios() {
+    public frmInfoServicios(Servicio servicio, int idCliente) {
+        initComponents();
+        btnAgregar.setText("Editar");
+        this.idCliente = idCliente;
+        servicioActual = servicio;
+    }
+
+    public frmInfoServicios(int idCliente) {
+        initComponents();
+        btnAgregar.setText("Agregar");
+        this.idCliente = idCliente;
+        servicioActual = new Servicio();
+        LocalDate ahora = LocalDate.now();
+        Date date  = Date.from(ahora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        dcCalendario.setDate(date);
+    }
+
+    private frmInfoServicios() {
         initComponents();
     }
 
@@ -31,7 +61,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         dcCalendario = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtDescripcion = new javax.swing.JTextArea();
         btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,11 +71,11 @@ public class frmInfoServicios extends javax.swing.JFrame {
 
         jLabel2.setText("Descripción del servicio");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setLineWrap(true);
+        txtDescripcion.setRows(5);
+        txtDescripcion.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtDescripcion);
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,11 +126,17 @@ public class frmInfoServicios extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        switch(btnAgregar.getText()){
+        servicioActual.setDescripcion(txtDescripcion.getText());
+        servicioActual.setFecha(dcCalendario.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        servicioActual.setId_Cliente(idCliente);
+        switch (btnAgregar.getText()) {
             case "Agregar":
-                
+                new daoServicios().Agregar(servicioActual);
+                JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
+                txtDescripcion.setText("");
                 break;
             case "Editar":
+                new daoServicios().Modificar(servicioActual);
                 break;
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -146,6 +182,6 @@ public class frmInfoServicios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtDescripcion;
     // End of variables declaration//GEN-END:variables
 }
