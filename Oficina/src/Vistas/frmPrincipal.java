@@ -109,7 +109,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -127,7 +127,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -164,6 +164,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 modelo.addRow(fila);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos");
         }
 
     }//GEN-LAST:event_formWindowActivated
@@ -176,6 +177,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         modelo.addColumn("Direccion");
         modelo.addColumn("Telefono");
         modelo.addColumn("Celular");
+        listaClientes.clear();
         try {
             ResultSet rs = new daoClientes().BuscarPorNombre(txtCliente.getText());
             while (rs.next()) {
