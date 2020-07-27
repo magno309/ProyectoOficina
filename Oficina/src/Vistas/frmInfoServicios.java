@@ -9,6 +9,7 @@ import Modelo.Servicio;
 import java.time.ZoneId;
 import Datos.daoServicios;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -32,6 +33,9 @@ public class frmInfoServicios extends javax.swing.JFrame {
         btnAgregar.setText("Editar");
         this.idCliente = idCliente;
         servicioActual = servicio;
+        Date fecha = Date.from(servicioActual.getFecha().atStartOfDay().toInstant(ZoneOffset.UTC));
+        dcCalendario.setDate(fecha);
+        txtDescripcion.setText(servicioActual.getDescripcion());
     }
 
     public frmInfoServicios(int idCliente) {

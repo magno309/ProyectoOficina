@@ -36,6 +36,7 @@ public class frmInfoCliente extends javax.swing.JFrame {
     public frmInfoCliente() {
         initComponents();
         btnAccion.setText("Agregar");
+        jPanel2.setVisible(false);
         Actual = new Cliente();
     }
 
@@ -52,6 +53,7 @@ public class frmInfoCliente extends javax.swing.JFrame {
         switch (funcion) {
             case 1:
                 btnAccion.setText("Editar");
+                jPanel2.setVisible(false);
                 break;
             case 2:
                 txtNombre.setEditable(false);
@@ -106,6 +108,8 @@ public class frmInfoCliente extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jToolBar1 = new javax.swing.JToolBar();
+        btnEditarServicio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -182,7 +186,7 @@ public class frmInfoCliente extends javax.swing.JFrame {
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de servicios:"));
@@ -200,6 +204,21 @@ public class frmInfoCliente extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+
+        btnEditarServicio.setBackground(new java.awt.Color(204, 204, 204));
+        btnEditarServicio.setText("Editar");
+        btnEditarServicio.setFocusable(false);
+        btnEditarServicio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEditarServicio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEditarServicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarServicioActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnEditarServicio);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -208,11 +227,14 @@ public class frmInfoCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -275,6 +297,14 @@ public class frmInfoCliente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAccionActionPerformed
 
+    private void btnEditarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarServicioActionPerformed
+        int index = jTable1.getSelectedRow();
+        frmInfoServicios frm = new frmInfoServicios(listaServicios.get(index), Actual.getId());
+        frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frm.setLocationRelativeTo(null);
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnEditarServicioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,6 +342,7 @@ public class frmInfoCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccion;
+    private javax.swing.JButton btnEditarServicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -320,6 +351,7 @@ public class frmInfoCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JFormattedTextField txtCelular;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombre;

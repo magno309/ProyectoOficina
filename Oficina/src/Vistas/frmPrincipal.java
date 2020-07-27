@@ -242,6 +242,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             frm.setTitle("Registrar servicio - Cliente: " + listaClientes.get(index).getNombre());
             frm.setVisible(true);
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarServicioActionPerformed
 
