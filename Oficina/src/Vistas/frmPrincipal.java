@@ -173,10 +173,10 @@ public class frmPrincipal extends javax.swing.JFrame {
                 });
                 modelo.addRow(fila);
             }
+            rs.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos");
         }
-
     }//GEN-LAST:event_formWindowActivated
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed

@@ -9,8 +9,6 @@ import Modelo.Servicio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDate;
 
 /**
  *
@@ -21,10 +19,12 @@ public class daoServicios implements EntidadesDB<Servicio>{
     @Override
     public void Agregar(Servicio Nuevo) {
         Conexion db = new Conexion();
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            Connection conn = db.obtenerConexion();
+            conn = db.obtenerConexion();
             String query = "call agregarServicio(?,?,?)";
-            PreparedStatement ps = conn.prepareCall(query);
+            ps = conn.prepareCall(query);
             ps.setInt(1, Nuevo.getId_Cliente());
             ps.setString(2, Nuevo.getDescripcion());
             ps.setDate(3, java.sql.Date.valueOf(Nuevo.getFecha()));
@@ -36,7 +36,20 @@ public class daoServicios implements EntidadesDB<Servicio>{
 
     @Override
     public void Modificar(Servicio Actual) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Conexion db = new Conexion();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = db.obtenerConexion();
+            String query = "update Servicios Fecha = ?, Descripcion = ? where Id_Servicio = ?";
+            ps = conn.prepareCall(query);
+            ps.setDate(1, java.sql.Date.valueOf(Actual.getFecha()));
+            ps.setString(2, Actual.getDescripcion());
+            ps.setInt(3, Actual.getId());
+            ps.execute();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

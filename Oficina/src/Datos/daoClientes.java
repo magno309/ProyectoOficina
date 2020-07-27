@@ -4,36 +4,54 @@ import Modelo.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class daoClientes implements EntidadesDB<Cliente> {
 
     @Override
     public void Agregar(Cliente nuevoCliente) {
         Conexion db = new Conexion();
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            Connection conn = db.obtenerConexion();
+            conn = db.obtenerConexion();
             String query = "call agregarCliente(?,?,?,?)";
-            PreparedStatement ps = conn.prepareCall(query);
+            ps = conn.prepareCall(query);
             ps.setString(1, nuevoCliente.getNombre());
             ps.setString(2, nuevoCliente.getDireccion());
             ps.setString(3, nuevoCliente.getTelefono());
             ps.setString(4, nuevoCliente.getCelular());
             ps.execute();
         } catch (Exception e) {
-
+            
+        }finally{
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
     public void Modificar(Cliente Nuevo) {
         Conexion db = new Conexion();
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            Connection conn = db.obtenerConexion();
+            conn = db.obtenerConexion();
             String query = "update Clientes"
                     + " set Nombre = ?, Direccion = ?, Telefono = ?, Celular = ?"
                     + " where Id_Cliente = ?";
-            PreparedStatement ps = conn.prepareCall(query);
+            ps = conn.prepareCall(query);
             ps.setString(1, Nuevo.getNombre());
             ps.setString(2, Nuevo.getDireccion());
             ps.setString(3, Nuevo.getTelefono());
@@ -48,10 +66,13 @@ public class daoClientes implements EntidadesDB<Cliente> {
     @Override
     public ResultSet ObtenerTodos() {
         Conexion db = new Conexion();
+        Connection conn = null;
+        Statement s = null;
+        ResultSet rs = null;
         try {
-            Connection conn = db.obtenerConexion();
-            Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery("select * from Clientes order by nombre asc;");
+            conn = db.obtenerConexion();
+            s = conn.createStatement();
+            rs = s.executeQuery("select * from Clientes order by nombre asc;");
             return rs;
         } catch (Exception e) {
             return null;

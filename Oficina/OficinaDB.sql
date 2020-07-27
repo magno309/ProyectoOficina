@@ -41,6 +41,7 @@ END$$
 delimiter ;
 
 select * from Clientes;
+select * from Servicios where Id_Cliente = 2;
 alter table clientes auto_increment = 1;
 
 call agregarCliente('Juanito Alcachofa', 'Granja Feliz', '', '');

@@ -74,6 +74,7 @@ public class frmInfoCliente extends javax.swing.JFrame {
                         LocalDate fecha = rs.getDate(4).toLocalDate();
                         listaServicios.add(new Servicio(idServicio, idCliente, descripcion, fecha));
                     }
+                    rs.close();
                     for (Servicio s : listaServicios) {
                         Object fila[] = {s.getFecha(), s.getDescripcion()};
                         modelo.addRow(fila);
