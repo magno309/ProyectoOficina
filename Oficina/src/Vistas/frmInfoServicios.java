@@ -30,7 +30,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
      */
     public frmInfoServicios(Servicio servicio, int idCliente) {
         initComponents();
-        btnAgregar.setText("Editar");
+        btnAccion.setText("Editar");
         this.idCliente = idCliente;
         servicioActual = servicio;
         Date fecha = Date.from(servicioActual.getFecha().atStartOfDay().toInstant(ZoneOffset.UTC));
@@ -40,7 +40,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
 
     public frmInfoServicios(int idCliente) {
         initComponents();
-        btnAgregar.setText("Agregar");
+        btnAccion.setText("Agregar");
         this.idCliente = idCliente;
         servicioActual = new Servicio();
         LocalDate ahora = LocalDate.now();
@@ -66,7 +66,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
         dcCalendario = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
-        btnAgregar = new javax.swing.JButton();
+        btnAccion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -81,10 +81,10 @@ public class frmInfoServicios extends javax.swing.JFrame {
         txtDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtDescripcion);
 
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnAccion.setText("Agregar");
+        btnAccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnAccionActionPerformed(evt);
             }
         });
 
@@ -106,7 +106,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnAccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -121,19 +121,19 @@ public class frmInfoServicios extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregar)
+                .addComponent(btnAccion)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void btnAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccionActionPerformed
         // TODO add your handling code here:
         servicioActual.setDescripcion(txtDescripcion.getText());
         servicioActual.setFecha(dcCalendario.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         servicioActual.setId_Cliente(idCliente);
-        switch (btnAgregar.getText()) {
+        switch (btnAccion.getText()) {
             case "Agregar":
                 new daoServicios().Agregar(servicioActual);
                 JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
@@ -141,9 +141,10 @@ public class frmInfoServicios extends javax.swing.JFrame {
                 break;
             case "Editar":
                 new daoServicios().Modificar(servicioActual);
+                JOptionPane.showMessageDialog(this, "Servicio modificado correctamente!", "Servicio modificado", JOptionPane.INFORMATION_MESSAGE);
                 break;
         }
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_btnAccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +182,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAccion;
     private com.toedter.calendar.JDateChooser dcCalendario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

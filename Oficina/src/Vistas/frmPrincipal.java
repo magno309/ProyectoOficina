@@ -8,6 +8,7 @@ package Vistas;
 import Datos.daoClientes;
 import Modelo.Cliente;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,10 +23,11 @@ public class frmPrincipal extends javax.swing.JFrame {
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
+        this.listaClientes = new ArrayList();
         initComponents();
     }
 
-    private ArrayList<Cliente> listaClientes = new ArrayList();
+    private ArrayList<Cliente> listaClientes;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -174,8 +176,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                 modelo.addRow(fila);
             }
             rs.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n" + e);
         }
     }//GEN-LAST:event_formWindowActivated
 
