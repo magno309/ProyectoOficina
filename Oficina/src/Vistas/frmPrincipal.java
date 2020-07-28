@@ -25,6 +25,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     public frmPrincipal() {
         this.listaClientes = new ArrayList();
         initComponents();
+        regacarTabla();
     }
 
     private ArrayList<Cliente> listaClientes;
@@ -50,11 +51,6 @@ public class frmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(724, 419));
         setMinimumSize(new java.awt.Dimension(600, 310));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
-            }
-        });
 
         jLabel1.setText("Buscar cliente:");
 
@@ -146,7 +142,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    public void regacarTabla() {
         // TODO add your handling code here:
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
@@ -179,7 +175,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n" + e);
         }
-    }//GEN-LAST:event_formWindowActivated
+    }
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         DefaultTableModel modelo = new DefaultTableModel();
@@ -217,7 +213,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             int index = jTable1.getSelectedRow();
-            frmInfoCliente frm = new frmInfoCliente(listaClientes.get(index), 1);
+            frmCliente frm = new frmCliente(listaClientes.get(index), 1, this, true);
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
             frm.setVisible(true);
@@ -228,9 +224,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarClienteActionPerformed
-        frmInfoCliente frm = new frmInfoCliente();
+        frmCliente frm = new frmCliente(this, true);
         frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        frm.setLocationRelativeTo(null);
         frm.setVisible(true);
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
@@ -252,7 +247,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             int index = jTable1.getSelectedRow();
-            frmInfoCliente frm = new frmInfoCliente(listaClientes.get(index), 2);
+            frmCliente frm = new frmCliente(listaClientes.get(index), 2, this, true);
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
             frm.setVisible(true);

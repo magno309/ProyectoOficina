@@ -100,7 +100,7 @@ public class daoClientes implements EntidadesDB<Cliente> {
         try {
             Connection conn = db.obtenerConexion();
             Nombre += "%";
-            String query = "select * from Clientes where Nombre like ?";
+            String query = "select * from Clientes where Nombre like ? order by nombre asc";
             PreparedStatement ps = conn.prepareCall(query);
             ps.setString(1, Nombre);
             ResultSet rs = ps.executeQuery();
