@@ -39,10 +39,17 @@ public class frmCliente extends javax.swing.JDialog {
         this.listaServicios = new ArrayList();
         initComponents();
         btnAccion.setText("Agregar");
-        jPanel2.setEnabled(false);
+        jPanel2.setVisible(false);
         Actual = new Cliente();
     }
 
+    /**
+     * Crear un nuevo form frmCliente
+     * @param Existente Información de un cliente existente
+     * @param funcion Indica la funcionalidad de la ventana, 1 = Editar, 2 = Ver servicios
+     * @param parent Indica el form padre de la ventana
+     * @param modal Indica modal
+     */
     public frmCliente(Cliente Existente, int funcion, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.listaServicios = new ArrayList();
@@ -55,7 +62,7 @@ public class frmCliente extends javax.swing.JDialog {
         switch (funcion) {
             case 1:
                 btnAccion.setText("Editar");
-                jPanel2.setEnabled(false);
+                jPanel2.setVisible(false);
                 break;
             case 2:
                 txtNombre.setEditable(false);
@@ -71,6 +78,7 @@ public class frmCliente extends javax.swing.JDialog {
     public void recargarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
+        listaServicios.clear();
         modelo.addColumn("Fecha");
         modelo.addColumn("Descripcion");
         try {
@@ -305,28 +313,31 @@ public class frmCliente extends javax.swing.JDialog {
                 }
                 JOptionPane.showMessageDialog(null, "Cliente agregado correctamente", "Agregar", JOptionPane.INFORMATION_MESSAGE);
                 jPanel2.setEnabled(true);
-
             } catch (Exception e) {
 
+            }finally{
+                dispose();
             }
         }
 
     }//GEN-LAST:event_btnAccionActionPerformed
 
     private void btnAgregarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarServicioActionPerformed
-        frmInfoServicios frm = new frmInfoServicios(Actual.getId());
+        frmServicios frm = new frmServicios(this, true, Actual.getId());
         frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
+        recargarTabla();
     }//GEN-LAST:event_btnAgregarServicioActionPerformed
 
     private void btnEditarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarServicioActionPerformed
         try {
             int index = jTable1.getSelectedRow();
-            frmInfoServicios frm = new frmInfoServicios(listaServicios.get(index), Actual.getId());
+            frmServicios frm = new frmServicios(this, true, listaServicios.get(index), Actual.getId());
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
             frm.setVisible(true);
+            recargarTabla();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado un servicio!", "Error", JOptionPane.ERROR_MESSAGE);
         }

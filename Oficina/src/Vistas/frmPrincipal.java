@@ -25,7 +25,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     public frmPrincipal() {
         this.listaClientes = new ArrayList();
         initComponents();
-        regacarTabla();
+        regargarTabla();
     }
 
     private ArrayList<Cliente> listaClientes;
@@ -142,7 +142,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void regacarTabla() {
+    public void regargarTabla() {
         // TODO add your handling code here:
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
@@ -216,8 +216,9 @@ public class frmPrincipal extends javax.swing.JFrame {
             frmCliente frm = new frmCliente(listaClientes.get(index), 1, this, true);
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
-            frm.setVisible(true);
             frm.setTitle("Cliente no.: " + listaClientes.get(index).getId());
+            frm.setVisible(true);
+            regargarTabla();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -226,14 +227,16 @@ public class frmPrincipal extends javax.swing.JFrame {
     private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarClienteActionPerformed
         frmCliente frm = new frmCliente(this, true);
         frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frm.setLocationRelativeTo(null);
         frm.setVisible(true);
+        regargarTabla();
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
     private void btnRegistrarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarServicioActionPerformed
         // TODO add your handling code here:
         try {
             int index = jTable1.getSelectedRow();
-            frmInfoServicios frm = new frmInfoServicios(listaClientes.get(index).getId());
+            frmServicios frm = new frmServicios(this, true, listaClientes.get(index).getId());
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
             frm.setTitle("Registrar servicio - Cliente: " + listaClientes.get(index).getNombre());
@@ -250,8 +253,8 @@ public class frmPrincipal extends javax.swing.JFrame {
             frmCliente frm = new frmCliente(listaClientes.get(index), 2, this, true);
             frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             frm.setLocationRelativeTo(null);
-            frm.setVisible(true);
             frm.setTitle("Cliente no.: " + listaClientes.get(index).getId());
+            frm.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }

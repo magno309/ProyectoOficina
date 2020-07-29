@@ -17,18 +17,19 @@ import javax.swing.JOptionPane;
  *
  * @author luis_
  */
-public class frmInfoServicios extends javax.swing.JFrame {
+public class frmServicios extends javax.swing.JDialog {
 
     private Servicio servicioActual;
     private int idCliente;
-
     /**
-     * Creates new form frmInfoServicios
-     *
+     * Creates new form frmServicios
+     * @param parent
+     * @param modal
      * @param servicio
      * @param idCliente
      */
-    public frmInfoServicios(Servicio servicio, int idCliente) {
+    public frmServicios(java.awt.Frame parent, boolean modal, Servicio servicio, int idCliente) {
+        super(parent, modal);
         initComponents();
         btnAccion.setText("Editar");
         this.idCliente = idCliente;
@@ -38,7 +39,8 @@ public class frmInfoServicios extends javax.swing.JFrame {
         txtDescripcion.setText(servicioActual.getDescripcion());
     }
 
-    public frmInfoServicios(int idCliente) {
+    public frmServicios(java.awt.Frame parent, boolean modal, int idCliente) {
+        super(parent, modal);
         initComponents();
         btnAccion.setText("Agregar");
         this.idCliente = idCliente;
@@ -48,7 +50,35 @@ public class frmInfoServicios extends javax.swing.JFrame {
         dcCalendario.setDate(date);
     }
 
-    private frmInfoServicios() {
+    private frmServicios(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
+    
+    public frmServicios(java.awt.Dialog parent, boolean modal, Servicio servicio, int idCliente) {
+        super(parent, modal);
+        initComponents();
+        btnAccion.setText("Editar");
+        this.idCliente = idCliente;
+        servicioActual = servicio;
+        Date fecha = Date.from(servicioActual.getFecha().atStartOfDay().toInstant(ZoneOffset.UTC));
+        dcCalendario.setDate(fecha);
+        txtDescripcion.setText(servicioActual.getDescripcion());
+    }
+
+    public frmServicios(java.awt.Dialog parent, boolean modal, int idCliente) {
+        super(parent, modal);
+        initComponents();
+        btnAccion.setText("Agregar");
+        this.idCliente = idCliente;
+        servicioActual = new Servicio();
+        LocalDate ahora = LocalDate.now();
+        Date date  = Date.from(ahora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        dcCalendario.setDate(date);
+    }
+
+    private frmServicios(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
 
@@ -61,19 +91,16 @@ public class frmInfoServicios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         dcCalendario = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
         btnAccion = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Fecha del servicio:");
-
-        jLabel2.setText("Descripción del servicio");
+        dcCalendario.setDateFormatString("dd/MM/yyyy");
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setLineWrap(true);
@@ -87,6 +114,10 @@ public class frmInfoServicios extends javax.swing.JFrame {
                 btnAccionActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("Fecha del servicio:");
+
+        jLabel2.setText("Descripción del servicio");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,7 +134,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnAccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -122,7 +153,7 @@ public class frmInfoServicios extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAccion)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,14 +166,14 @@ public class frmInfoServicios extends javax.swing.JFrame {
         servicioActual.setId_Cliente(idCliente);
         switch (btnAccion.getText()) {
             case "Agregar":
-                new daoServicios().Agregar(servicioActual);
-                JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
-                txtDescripcion.setText("");
-                break;
+            new daoServicios().Agregar(servicioActual);
+            JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
+            txtDescripcion.setText("");
+            break;
             case "Editar":
-                new daoServicios().Modificar(servicioActual);
-                JOptionPane.showMessageDialog(this, "Servicio modificado correctamente!", "Servicio modificado", JOptionPane.INFORMATION_MESSAGE);
-                break;
+            new daoServicios().Modificar(servicioActual);
+            JOptionPane.showMessageDialog(this, "Servicio modificado correctamente!", "Servicio modificado", JOptionPane.INFORMATION_MESSAGE);
+            break;
         }
     }//GEN-LAST:event_btnAccionActionPerformed
 
@@ -163,20 +194,27 @@ public class frmInfoServicios extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmInfoServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmInfoServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmInfoServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmInfoServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmServicios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmInfoServicios().setVisible(true);
+                frmServicios dialog = new frmServicios(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
