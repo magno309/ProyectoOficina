@@ -18,6 +18,22 @@ public class Conexion {
         username = "root";
         password = "root";
     }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    public void setConnectionURL(String connectionURL) {
+        this.connectionURL = connectionURL;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
     public Connection obtenerConexion() throws Exception{
         Class.forName(driver);

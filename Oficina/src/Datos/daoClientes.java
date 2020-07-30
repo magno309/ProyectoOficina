@@ -18,16 +18,17 @@ public class daoClientes implements EntidadesDB<Cliente> {
         PreparedStatement ps = null;
         try {
             conn = db.obtenerConexion();
-            String query = "call agregarCliente(?,?,?,?)";
+            String query = "call agregarCliente(?,?,?,?,?)";
             ps = conn.prepareCall(query);
             ps.setString(1, nuevoCliente.getNombre());
             ps.setString(2, nuevoCliente.getDireccion());
-            ps.setString(3, nuevoCliente.getTelefono());
-            ps.setString(4, nuevoCliente.getCelular());
+            ps.setString(3, nuevoCliente.getCiudad());
+            ps.setString(4, nuevoCliente.getTelefono());
+            ps.setString(5, nuevoCliente.getCelular());
             ps.execute();
         } catch (Exception e) {
-            
-        }finally{
+
+        } finally {
             try {
                 ps.close();
             } catch (SQLException ex) {
@@ -49,14 +50,15 @@ public class daoClientes implements EntidadesDB<Cliente> {
         try {
             conn = db.obtenerConexion();
             String query = "update Clientes"
-                    + " set Nombre = ?, Direccion = ?, Telefono = ?, Celular = ?"
+                    + " set Nombre = ?, Direccion = ?, Ciudad = ?, Telefono = ?, Celular = ?"
                     + " where Id_Cliente = ?";
             ps = conn.prepareCall(query);
             ps.setString(1, Nuevo.getNombre());
             ps.setString(2, Nuevo.getDireccion());
-            ps.setString(3, Nuevo.getTelefono());
-            ps.setString(4, Nuevo.getCelular());
-            ps.setInt(5, Nuevo.getId());
+            ps.setString(3, Nuevo.getCiudad());
+            ps.setString(4, Nuevo.getTelefono());
+            ps.setString(5, Nuevo.getCelular());
+            ps.setInt(6, Nuevo.getId());
             ps.execute();
         } catch (Exception e) {
 
@@ -89,7 +91,7 @@ public class daoClientes implements EntidadesDB<Cliente> {
             ps.setInt(1, Clave);
             ResultSet rs = ps.executeQuery();
             //ps.close();
-            return new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString());
+            return new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString(), rs.getObject(6).toString());
         } catch (Exception e) {
             return null;
         }

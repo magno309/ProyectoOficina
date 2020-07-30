@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -49,6 +50,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnVerServicio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Directorio");
         setMaximumSize(new java.awt.Dimension(724, 419));
         setMinimumSize(new java.awt.Dimension(600, 310));
 
@@ -117,7 +119,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,17 +148,19 @@ public class frmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
+        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         listaClientes.clear();
         //modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
+        modelo.addColumn("Ciudad");
         modelo.addColumn("Telefono");
         modelo.addColumn("Celular");
         try {
             ResultSet rs = new daoClientes().ObtenerTodos();
             while (rs.next()) {
-                Object fila[] = new Object[4];
-                listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString()));
+                Object fila[] = new Object[5];
+                listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString(), rs.getObject(6).toString()));
                 listaClientes.stream().map((cliente) -> {
                     fila[0] = cliente.getNombre();
                     return cliente;
@@ -164,10 +168,13 @@ public class frmPrincipal extends javax.swing.JFrame {
                     fila[1] = cliente.getDireccion();
                     return cliente;
                 }).map((cliente) -> {
-                    fila[2] = cliente.getTelefono();
+                    fila[2] = cliente.getCiudad();
+                    return cliente;
+                }).map((cliente) -> {
+                    fila[3] = cliente.getTelefono();
                     return cliente;
                 }).forEachOrdered((cliente) -> {
-                    fila[3] = cliente.getCelular();
+                    fila[4] = cliente.getCelular();
                 });
                 modelo.addRow(fila);
             }
@@ -189,8 +196,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         try {
             ResultSet rs = new daoClientes().BuscarPorNombre(txtCliente.getText());
             while (rs.next()) {
-                Object fila[] = new Object[4];
-                listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString()));
+                Object fila[] = new Object[5];
+                listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString(), rs.getObject(6).toString()));
                 listaClientes.stream().map((cliente) -> {
                     fila[0] = cliente.getNombre();
                     return cliente;
@@ -198,10 +205,13 @@ public class frmPrincipal extends javax.swing.JFrame {
                     fila[1] = cliente.getDireccion();
                     return cliente;
                 }).map((cliente) -> {
-                    fila[2] = cliente.getTelefono();
+                    fila[2] = cliente.getCiudad();
+                    return cliente;
+                }).map((cliente) -> {
+                    fila[3] = cliente.getTelefono();
                     return cliente;
                 }).forEachOrdered((cliente) -> {
-                    fila[3] = cliente.getCelular();
+                    fila[4] = cliente.getCelular();
                 });
                 modelo.addRow(fila);
             }

@@ -13,16 +13,18 @@ public class Cliente {
     private int Id;
     private String Nombre;
     private String Direccion;
+    private String Ciudad;
     private String Telefono;
     private String Celular;
 
     
     public Cliente(){}
     
-    public Cliente(int Id, String Nombre, String Direccion, String Telefono, String Celular) {
+    public Cliente(int Id, String Nombre, String Direccion, String Ciudad, String Telefono, String Celular) {
         this.Id = Id;
         this.Nombre = Nombre;
         this.Direccion = Direccion;
+        this.Ciudad = Ciudad;
         this.Telefono = Telefono;
         this.Celular = Celular;
     }
@@ -45,6 +47,14 @@ public class Cliente {
 
     public void setDireccion(String Direccion) {
         this.Direccion = Direccion;
+    }
+    
+    public String getCiudad() {
+        return Ciudad;
+    }
+
+    public void setCiudad(String Ciudad) {
+        this.Ciudad = Ciudad;
     }
 
     public String getTelefono() {
