@@ -16,7 +16,7 @@ public class Conexion {
         connectionURL = "jdbc:mysql://localhost/";
         dbName = "oficina";
         username = "root";
-        password = "root";
+        password = "rot";
     }
 
     public void setDbName(String dbName) {
@@ -24,7 +24,7 @@ public class Conexion {
     }
 
     public void setConnectionURL(String connectionURL) {
-        this.connectionURL = connectionURL;
+        this.connectionURL = "jdbc:mysql://"+connectionURL;
     }
 
     public void setUsername(String username) {

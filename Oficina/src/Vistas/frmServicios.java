@@ -21,8 +21,10 @@ public class frmServicios extends javax.swing.JDialog {
 
     private Servicio servicioActual;
     private int idCliente;
+
     /**
      * Creates new form frmServicios
+     *
      * @param parent
      * @param modal
      * @param servicio
@@ -46,7 +48,7 @@ public class frmServicios extends javax.swing.JDialog {
         this.idCliente = idCliente;
         servicioActual = new Servicio();
         LocalDate ahora = LocalDate.now();
-        Date date  = Date.from(ahora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(ahora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         dcCalendario.setDate(date);
     }
 
@@ -54,7 +56,7 @@ public class frmServicios extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
+
     public frmServicios(java.awt.Dialog parent, boolean modal, Servicio servicio, int idCliente) {
         super(parent, modal);
         initComponents();
@@ -73,7 +75,7 @@ public class frmServicios extends javax.swing.JDialog {
         this.idCliente = idCliente;
         servicioActual = new Servicio();
         LocalDate ahora = LocalDate.now();
-        Date date  = Date.from(ahora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(ahora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         dcCalendario.setDate(date);
     }
 
@@ -166,14 +168,14 @@ public class frmServicios extends javax.swing.JDialog {
         servicioActual.setId_Cliente(idCliente);
         switch (btnAccion.getText()) {
             case "Agregar":
-            new daoServicios().Agregar(servicioActual);
-            JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
-            txtDescripcion.setText("");
-            break;
+                new daoServicios().Agregar(servicioActual);
+                JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
+                txtDescripcion.setText("");
+                break;
             case "Editar":
-            new daoServicios().Modificar(servicioActual);
-            JOptionPane.showMessageDialog(this, "Servicio modificado correctamente!", "Servicio modificado", JOptionPane.INFORMATION_MESSAGE);
-            break;
+                new daoServicios().Modificar(servicioActual);
+                JOptionPane.showMessageDialog(this, "Servicio modificado correctamente!", "Servicio modificado", JOptionPane.INFORMATION_MESSAGE);
+                break;
         }
     }//GEN-LAST:event_btnAccionActionPerformed
 

@@ -11,9 +11,22 @@ import java.util.logging.Logger;
 
 public class daoClientes implements EntidadesDB<Cliente> {
 
+    private Conexion db;
+    
+    public daoClientes(){
+        db = new Conexion();
+    }
+
+    public Conexion getDb() {
+        return db;
+    }
+
+    public void setDb(Conexion db) {
+        this.db = db;
+    }
+    
     @Override
     public void Agregar(Cliente nuevoCliente) {
-        Conexion db = new Conexion();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -44,7 +57,6 @@ public class daoClientes implements EntidadesDB<Cliente> {
 
     @Override
     public void Modificar(Cliente Nuevo) {
-        Conexion db = new Conexion();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -62,12 +74,22 @@ public class daoClientes implements EntidadesDB<Cliente> {
             ps.execute();
         } catch (Exception e) {
 
+        }finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
     public ResultSet ObtenerTodos() {
-        Conexion db = new Conexion();
         Connection conn = null;
         Statement s = null;
         ResultSet rs = null;
@@ -83,7 +105,6 @@ public class daoClientes implements EntidadesDB<Cliente> {
 
     @Override
     public Cliente ObtenerUno(int Clave) {
-        Conexion db = new Conexion();
         try {
             Connection conn = db.obtenerConexion();
             String query = "select * from Clientes where Id_Cliente = ?";
@@ -98,10 +119,9 @@ public class daoClientes implements EntidadesDB<Cliente> {
     }
 
     public ResultSet BuscarPorNombre(String Nombre) {
-        Conexion db = new Conexion();
         try {
             Connection conn = db.obtenerConexion();
-            Nombre += "%";
+            Nombre = "%" + Nombre + "%";
             String query = "select * from Clientes where Nombre like ? order by nombre asc";
             PreparedStatement ps = conn.prepareCall(query);
             ps.setString(1, Nombre);

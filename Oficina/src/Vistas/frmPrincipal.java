@@ -25,11 +25,13 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     public frmPrincipal() {
         this.listaClientes = new ArrayList();
+        dc = new daoClientes();
         initComponents();
-        regargarTabla();
+        recargarTabla();
     }
 
     private ArrayList<Cliente> listaClientes;
+    private daoClientes dc;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -42,6 +44,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        btnConectar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
         btnAgregarCliente = new javax.swing.JMenuItem();
         btnEditarCliente = new javax.swing.JMenuItem();
@@ -67,6 +71,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jMenu1.setText("Archivo");
+
+        btnConectar.setText("Conectar...");
+        jMenu1.add(btnConectar);
+        jMenu1.add(jSeparator1);
 
         jMenu3.setText("Clientes");
 
@@ -144,7 +152,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void regargarTabla() {
+    public void recargarTabla() {
         // TODO add your handling code here:
         DefaultTableModel modelo = new DefaultTableModel();
         jTable1.setModel(modelo);
@@ -157,7 +165,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         modelo.addColumn("Telefono");
         modelo.addColumn("Celular");
         try {
-            ResultSet rs = new daoClientes().ObtenerTodos();
+            ResultSet rs = dc.ObtenerTodos();
             while (rs.next()) {
                 Object fila[] = new Object[5];
                 listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString(), rs.getObject(6).toString()));
@@ -179,8 +187,10 @@ public class frmPrincipal extends javax.swing.JFrame {
                 modelo.addRow(fila);
             }
             rs.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n" + e);
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
+            dc.setDb(new frmConexion(this, true).showDialog());
+            recargarTabla();
         }
     }
 
@@ -194,7 +204,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         modelo.addColumn("Celular");
         listaClientes.clear();
         try {
-            ResultSet rs = new daoClientes().BuscarPorNombre(txtCliente.getText());
+            ResultSet rs = dc.BuscarPorNombre(txtCliente.getText());
             while (rs.next()) {
                 Object fila[] = new Object[5];
                 listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString(), rs.getObject(6).toString()));
@@ -215,7 +225,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                 });
                 modelo.addRow(fila);
             }
-        } catch (Exception e) {
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
+            dc.setDb(new frmConexion(this, true).showDialog());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -228,7 +240,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             frm.setLocationRelativeTo(null);
             frm.setTitle("Cliente no.: " + listaClientes.get(index).getId());
             frm.setVisible(true);
-            regargarTabla();
+            recargarTabla();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún cliente!", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -239,7 +251,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         frm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
-        regargarTabla();
+        recargarTabla();
     }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
     private void btnRegistrarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarServicioActionPerformed
@@ -308,6 +320,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnAgregarCliente;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JMenuItem btnConectar;
     private javax.swing.JMenuItem btnEditarCliente;
     private javax.swing.JMenuItem btnRegistrarServicio;
     private javax.swing.JMenuItem btnVerServicio;
@@ -317,6 +330,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtCliente;
     // End of variables declaration//GEN-END:variables

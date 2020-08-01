@@ -9,6 +9,9 @@ import Modelo.Servicio;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,6 +34,17 @@ public class daoServicios implements EntidadesDB<Servicio>{
             ps.execute();
         } catch (Exception e) {
 
+        }finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -41,7 +55,7 @@ public class daoServicios implements EntidadesDB<Servicio>{
         PreparedStatement ps = null;
         try {
             conn = db.obtenerConexion();
-            String query = "update Servicios Fecha = ?, Descripcion = ? where Id_Servicio = ?";
+            String query = "update Servicios set Fecha = ?, Descripcion = ? where Id_Servicio = ?";
             ps = conn.prepareCall(query);
             ps.setDate(1, java.sql.Date.valueOf(Actual.getFecha()));
             ps.setString(2, Actual.getDescripcion());
@@ -49,6 +63,18 @@ public class daoServicios implements EntidadesDB<Servicio>{
             ps.execute();
         } catch (Exception e) {
 
+        }
+        finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(daoClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

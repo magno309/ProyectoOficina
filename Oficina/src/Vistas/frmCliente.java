@@ -9,20 +9,12 @@ import Datos.daoServicios;
 import Datos.daoClientes;
 import Modelo.Cliente;
 import Modelo.Servicio;
-import java.awt.Component;
 import java.awt.HeadlessException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -325,12 +317,6 @@ public class frmCliente extends javax.swing.JDialog {
             case "Agregar":
                 try {
                 new daoClientes().Agregar(Actual);
-                for (Component cmp : jPanel1.getComponents()) {
-                    if (cmp instanceof JTextField) {
-                        JTextField j = (JTextField) cmp;
-                        j.setText("");
-                    }
-                }
                 JOptionPane.showMessageDialog(null, "Cliente agregado correctamente", "Agregar", JOptionPane.INFORMATION_MESSAGE);
                 jPanel2.setEnabled(true);
             } catch (Exception e) {
