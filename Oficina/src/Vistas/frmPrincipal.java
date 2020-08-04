@@ -5,11 +5,15 @@
  */
 package Vistas;
 
+import Datos.Conexion;
 import Datos.daoClientes;
+import Datos.daoServicios;
 import Modelo.Cliente;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,16 +26,25 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form frmPrincipal
+     * @throws java.lang.Exception
      */
-    public frmPrincipal() {
-        this.listaClientes = new ArrayList();
-        dc = new daoClientes();
+    public frmPrincipal() throws Exception {
         initComponents();
-        recargarTabla();
+        this.listaClientes = new ArrayList();
+        try {
+            dc = new daoClientes();
+            ds = new daoServicios();
+            dc.getDb().obtenerConexion();
+            ds.getDb().obtenerConexion();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
+            conectarDB();
+        }
     }
 
     private ArrayList<Cliente> listaClientes;
-    private daoClientes dc;
+    public static daoClientes dc;
+    public static daoServicios ds;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -60,6 +73,12 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabel1.setText("Buscar cliente:");
 
+        txtCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClienteActionPerformed(evt);
+            }
+        });
+
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,6 +92,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu1.setText("Archivo");
 
         btnConectar.setText("Conectar...");
+        btnConectar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConectarActionPerformed(evt);
+            }
+        });
         jMenu1.add(btnConectar);
         jMenu1.add(jSeparator1);
 
@@ -152,6 +176,18 @@ public class frmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void conectarDB() {
+        Conexion c = new frmConexion(this, true).showDialog();
+        if(c != null){
+            dc.setDb(c);
+            ds.setDb(c);
+            recargarTabla();
+        }
+        else{
+            System.exit(0);
+        }
+    }
+
     public void recargarTabla() {
         // TODO add your handling code here:
         DefaultTableModel modelo = new DefaultTableModel();
@@ -187,10 +223,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                 modelo.addRow(fila);
             }
             rs.close();
-        } catch (SQLException | NullPointerException e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
-            dc.setDb(new frmConexion(this, true).showDialog());
-            recargarTabla();
+            conectarDB();
         }
     }
 
@@ -227,7 +262,9 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         } catch (SQLException | NullPointerException e) {
             JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
-            dc.setDb(new frmConexion(this, true).showDialog());
+            Conexion c = new frmConexion(this, true).showDialog();
+            dc.setDb(c);
+            ds.setDb(c);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -282,6 +319,14 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVerServicioActionPerformed
 
+    private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
+        new frmConexion(this, true).showDialog();
+    }//GEN-LAST:event_btnConectarActionPerformed
+
+    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,7 +357,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmPrincipal().setVisible(true);
+                try {
+                    new frmPrincipal().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

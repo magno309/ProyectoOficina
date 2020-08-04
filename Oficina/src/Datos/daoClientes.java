@@ -13,8 +13,13 @@ public class daoClientes implements EntidadesDB<Cliente> {
 
     private Conexion db;
     
-    public daoClientes(){
+    public daoClientes() throws SQLException{
         db = new Conexion();
+        /*try {
+            db.obtenerConexion();
+        } catch (Exception ex) {
+            throw new SQLException("Error al conectarse a la base de datos");
+        }*/
     }
 
     public Conexion getDb() {
@@ -90,9 +95,9 @@ public class daoClientes implements EntidadesDB<Cliente> {
 
     @Override
     public ResultSet ObtenerTodos() {
-        Connection conn = null;
-        Statement s = null;
-        ResultSet rs = null;
+        Connection conn;
+        Statement s;
+        ResultSet rs;
         try {
             conn = db.obtenerConexion();
             s = conn.createStatement();

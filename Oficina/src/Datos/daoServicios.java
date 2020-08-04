@@ -19,9 +19,29 @@ import java.util.logging.Logger;
  */
 public class daoServicios implements EntidadesDB<Servicio>{
 
+    
+    Conexion db;
+    
+    public daoServicios() throws SQLException{
+        db = new Conexion();
+        /*try {
+            db.obtenerConexion();
+        } catch (Exception ex) {
+            throw new SQLException("No se ha podido conectar a la base de datos");
+        }*/
+        
+    }
+
+    public Conexion getDb() {
+        return db;
+    }
+
+    public void setDb(Conexion db) {
+        this.db = db;
+    }
+    
     @Override
     public void Agregar(Servicio Nuevo) {
-        Conexion db = new Conexion();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -50,7 +70,6 @@ public class daoServicios implements EntidadesDB<Servicio>{
 
     @Override
     public void Modificar(Servicio Actual) {
-        Conexion db = new Conexion();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -89,7 +108,6 @@ public class daoServicios implements EntidadesDB<Servicio>{
     }
     
     public ResultSet ObtenerTodosPorCliente(int Clave) {
-        Conexion db = new Conexion();
         try {
             Connection conn = db.obtenerConexion();
             String query = "select * from Servicios where Id_Cliente = ? order by fecha asc;";

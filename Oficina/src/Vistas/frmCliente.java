@@ -5,10 +5,10 @@
  */
 package Vistas;
 
-import Datos.daoServicios;
-import Datos.daoClientes;
 import Modelo.Cliente;
 import Modelo.Servicio;
+import static Vistas.frmPrincipal.dc;
+import static Vistas.frmPrincipal.ds;
 import java.awt.HeadlessException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,7 +80,7 @@ public class frmCliente extends javax.swing.JDialog {
         modelo.addColumn("Fecha");
         modelo.addColumn("Descripcion");
         try {
-            ResultSet rs = new daoServicios().ObtenerTodosPorCliente(Actual.getId());
+            ResultSet rs = ds.ObtenerTodosPorCliente(Actual.getId());
             while (rs.next()) {
                 int idServicio = (int) rs.getObject(1);
                 int idCliente = (int) rs.getObject(2);
@@ -127,6 +127,8 @@ public class frmCliente extends javax.swing.JDialog {
         btnEditarServicio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Información del cliente");
+        setMinimumSize(new java.awt.Dimension(439, 509));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del cliente:"));
 
@@ -167,25 +169,23 @@ public class frmCliente extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtCiudad, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtCelular, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(340, 340, 340)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCiudad, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCelular, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(btnAccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,7 +308,7 @@ public class frmCliente extends javax.swing.JDialog {
         switch (btnAccion.getText()) {
             case "Editar":
                 try {
-                new daoClientes().Modificar(Actual);
+                dc.Modificar(Actual);
                 JOptionPane.showMessageDialog(null, "Cliente modificado correctamente", "Modificar", JOptionPane.INFORMATION_MESSAGE);
             } catch (HeadlessException e) {
 
@@ -316,7 +316,7 @@ public class frmCliente extends javax.swing.JDialog {
             break;
             case "Agregar":
                 try {
-                new daoClientes().Agregar(Actual);
+                dc.Agregar(Actual);
                 JOptionPane.showMessageDialog(null, "Cliente agregado correctamente", "Agregar", JOptionPane.INFORMATION_MESSAGE);
                 jPanel2.setEnabled(true);
             } catch (Exception e) {

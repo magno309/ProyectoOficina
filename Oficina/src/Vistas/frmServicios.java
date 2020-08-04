@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import static Vistas.frmPrincipal.dc;
+import static Vistas.frmPrincipal.ds;
 
 /**
  *
@@ -168,12 +170,12 @@ public class frmServicios extends javax.swing.JDialog {
         servicioActual.setId_Cliente(idCliente);
         switch (btnAccion.getText()) {
             case "Agregar":
-                new daoServicios().Agregar(servicioActual);
+                ds.Agregar(servicioActual);
                 JOptionPane.showMessageDialog(this, "Servicio registrado correctamente!", "Servicio registrado", JOptionPane.INFORMATION_MESSAGE);
                 txtDescripcion.setText("");
                 break;
             case "Editar":
-                new daoServicios().Modificar(servicioActual);
+                ds.Modificar(servicioActual);
                 JOptionPane.showMessageDialog(this, "Servicio modificado correctamente!", "Servicio modificado", JOptionPane.INFORMATION_MESSAGE);
                 break;
         }

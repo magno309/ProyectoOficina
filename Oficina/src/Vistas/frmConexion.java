@@ -24,7 +24,7 @@ public class frmConexion extends javax.swing.JDialog {
         initComponents();
     }
     
-    Conexion db;
+    private Conexion db;
     public Conexion showDialog(){
         setVisible(true);
         return db;
@@ -49,6 +49,7 @@ public class frmConexion extends javax.swing.JDialog {
         btnConectar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Conectar al servidor");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Infromación del servidor"));
 
