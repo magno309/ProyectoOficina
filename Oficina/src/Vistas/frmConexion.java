@@ -137,11 +137,14 @@ public class frmConexion extends javax.swing.JDialog {
         try {
             Connection con = db.obtenerConexion();
             System.out.println("Sí se pudo");
+            db.setValida(true);
+            JOptionPane.showMessageDialog(this, "Conectado a " + txtHost.getText(), "Conectado", JOptionPane.INFORMATION_MESSAGE);
             con.close();
             setVisible(false);
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Los datos ingresados son incorrectos!", "Error al conectarse a la base de datos", JOptionPane.ERROR_MESSAGE);
+            db.setValida(false);
         }
     }//GEN-LAST:event_btnConectarActionPerformed
 

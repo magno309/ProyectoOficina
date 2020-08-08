@@ -10,6 +10,7 @@ public class Conexion {
     private String connectionURL;
     private String username;
     private String password;
+    private boolean valida;
 
     public Conexion() {
         driver = "com.mysql.jdbc.Driver";
@@ -17,6 +18,7 @@ public class Conexion {
         dbName = "oficina";
         username = "root";
         password = "rot";
+        valida = false;
     }
 
     public void setDbName(String dbName) {
@@ -41,6 +43,14 @@ public class Conexion {
         return conexion;
     }
     
+    public boolean isValida() {
+        return valida;
+    }
+
+    public void setValida(boolean valida) {
+        this.valida = valida;
+    }
+    
     /*public static void main(String[] args) {
         Conexion db = new Conexion();
         try {
@@ -51,4 +61,6 @@ public class Conexion {
             e.printStackTrace();
         }
     }*/
+
+    
 }

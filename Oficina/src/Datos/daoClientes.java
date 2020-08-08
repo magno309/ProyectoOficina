@@ -15,11 +15,6 @@ public class daoClientes implements EntidadesDB<Cliente> {
     
     public daoClientes() throws SQLException{
         db = new Conexion();
-        /*try {
-            db.obtenerConexion();
-        } catch (Exception ex) {
-            throw new SQLException("Error al conectarse a la base de datos");
-        }*/
     }
 
     public Conexion getDb() {

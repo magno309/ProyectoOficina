@@ -26,6 +26,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form frmPrincipal
+     *
      * @throws java.lang.Exception
      */
     public frmPrincipal() throws Exception {
@@ -36,6 +37,7 @@ public class frmPrincipal extends javax.swing.JFrame {
             ds = new daoServicios();
             dc.getDb().obtenerConexion();
             ds.getDb().obtenerConexion();
+            recargarTabla();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
             conectarDB();
@@ -178,13 +180,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void conectarDB() {
         Conexion c = new frmConexion(this, true).showDialog();
-        if(c != null){
-            dc.setDb(c);
-            ds.setDb(c);
-            recargarTabla();
-        }
-        else{
-            System.exit(0);
+        if (c != null) {
+            if (c.isValida()) {
+                dc.setDb(c);
+                ds.setDb(c);
+                recargarTabla();
+            }else{
+                System.exit(0);
+            }
+        } else {
+            
         }
     }
 
@@ -320,11 +325,48 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerServicioActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
-        new frmConexion(this, true).showDialog();
+        Conexion c = new frmConexion(this, true).showDialog();
+        dc.setDb(c);
+        ds.setDb(c);
     }//GEN-LAST:event_btnConectarActionPerformed
 
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelo = new DefaultTableModel();
+        jTable1.setModel(modelo);
+        //modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Direccion");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Celular");
+        listaClientes.clear();
+        try {
+            ResultSet rs = dc.BuscarPorNombre(txtCliente.getText());
+            while (rs.next()) {
+                Object fila[] = new Object[5];
+                listaClientes.add(new Cliente((int) rs.getObject(1), rs.getObject(2).toString(), rs.getObject(3).toString(), rs.getObject(4).toString(), rs.getObject(5).toString(), rs.getObject(6).toString()));
+                listaClientes.stream().map((cliente) -> {
+                    fila[0] = cliente.getNombre();
+                    return cliente;
+                }).map((cliente) -> {
+                    fila[1] = cliente.getDireccion();
+                    return cliente;
+                }).map((cliente) -> {
+                    fila[2] = cliente.getCiudad();
+                    return cliente;
+                }).map((cliente) -> {
+                    fila[3] = cliente.getTelefono();
+                    return cliente;
+                }).forEachOrdered((cliente) -> {
+                    fila[4] = cliente.getCelular();
+                });
+                modelo.addRow(fila);
+            }
+        } catch (SQLException | NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos\n");
+            Conexion c = new frmConexion(this, true).showDialog();
+            dc.setDb(c);
+            ds.setDb(c);
+        }
     }//GEN-LAST:event_txtClienteActionPerformed
 
     /**
